@@ -6,6 +6,7 @@ backend/*$py.class
 backend/*.sqlite3
 backend/staticfiles/
 backend/media/
+__pycache__
 
 # Frontend (React)
 frontend/node_modules/
