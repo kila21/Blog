@@ -59,7 +59,7 @@ class Post(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=100)
     image = models.FileField(upload_to='images', null=True, blank=True)
-    description = models.TextField(null=True, blanl=True)
+    description = models.TextField(null=True, blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     views = models.IntegerField(default=0)
