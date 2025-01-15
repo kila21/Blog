@@ -47,7 +47,7 @@ class Category(models.Model):
     
 
     def save(self, *args, **kwargs):
-        if self.slug == '' or self.slug == None:
+        if not self.slug:
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
 
@@ -73,6 +73,6 @@ class Post(models.Model):
         verbose_name_plural = 'Post'
 
     def save(self, *args, **kwargs):
-        if self.slug == '' or self.slug == None:
+        if not self.slug:
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
