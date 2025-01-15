@@ -53,3 +53,26 @@ class Category(models.Model):
 
 # post Model
 
+class Post(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
+    title = models.CharField(max_length=100)
+    image = models.FileField(upload_to='images', null=True, blank=True)
+    description = models.TextField(null=True, blanl=True)
+    slug = models.SlugField(unique=True, null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    views = models.IntegerField(default=0)
+    likes = models.ManyToManyField(User, blank=True, related_name='likes_user')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['-date']
+        verbose_name_plural = 'Post'
+
+    def save(self, *args, **kwargs):
+        if self.slug == '' or self.slug == None:
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
