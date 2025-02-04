@@ -60,4 +60,10 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'image', 'slug', 'post_count']
 
 
+class AuthorSerializer(serializers.Serializer):
+    views = serializers.IntegerField(default=0)
+    posts = serializers.IntegerField(default=0)
+    likes = serializers.IntegerField(default=0)
+    bookmarks = serializers.IntegerField(default=0)
+
 # here should be comments serializer
