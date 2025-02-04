@@ -37,5 +37,27 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         user.set_password(validate_password['password'])
         user.save()
-        
+
         return user
+    
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        models = models.User
+        fields = '__all__'
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        models = models.Profile
+        fields = '__all__'
+
+class CategorySerializer(serializers.ModelSerializer):
+
+    def get_post_count(self, category):
+        return category.posts.count()
+    class Meta:
+        models = models.Category
+        fields = ['id', 'title', 'image', 'slug', 'post_count']
+
+
+# here should be comments serializer
