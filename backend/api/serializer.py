@@ -16,16 +16,16 @@ class MyCustomToken(TokenObtainPairSerializer):
     
 
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.Charfield(write_only=True, required=True, validate=[validate_password])
-    confirm_password = serializers.charfield(write_only=True, required=True)
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    confirm_password = serializers.CharField(write_only=True, required=True)
 
     class Meta:
-        models = models.User
-        fields = ['email', 'username', 'password', 'confirm_password', ]
+        model = models.User
+        fields = ['full_name','email', 'username', 'password', 'confirm_password', ]
 
     def validate(self, attrs):
         if attrs['password'] != attrs['confirm_password']:
-            return serializers.ValidationError({'password': 'Password Fields Should Match!'})
+            raise serializers.ValidationError({'password': 'Password Fields Should Match!'})
         return attrs
     
     def create(self, validated_data):
@@ -42,13 +42,13 @@ class RegisterSerializer(serializers.ModelSerializer):
     
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        models = models.User
+        model = models.User
         fields = '__all__'
 
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        models = models.Profile
+        model = models.Profile
         fields = '__all__'
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -56,7 +56,7 @@ class CategorySerializer(serializers.ModelSerializer):
     def get_post_count(self, category):
         return category.posts.count()
     class Meta:
-        models = models.Category
+        model = models.Category
         fields = ['id', 'title', 'image', 'slug', 'post_count']
 
 
