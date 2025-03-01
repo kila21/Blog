@@ -66,4 +66,31 @@ class AuthorSerializer(serializers.Serializer):
     likes = serializers.IntegerField(default=0)
     bookmarks = serializers.IntegerField(default=0)
 
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Post
+        fields = '__all__'
+    
+    def __init__(self, *args, **kwargs):
+        super(PostSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        if request and request.method == 'POST':
+            self.Meta.depth = 0
+        else:
+            self.Meta.depth = 1
+
+# class BookmarkSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = models.Bookmark
+#         fields = '__all__'
+    
+#     def __init__(self, *args, **kwargs):
+#         super(BookmarkSerializer, self).__init__(*args, **kwargs)
+#         request = self.context.get('request')
+#         if request and request.method == 'POST':
+#             self.Meta.depth = 0
+#         else:
+#             self.Meta.depth = 1
+
 # here should be comments serializer
