@@ -35,5 +35,11 @@ class CategoryListApiView(generics.ListAPIView):
     def get_queryset(self):
         return api_models.Category.objects.all()
     
+class PostCategoryListApiView(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = api_serializer.PostSerializer
 
-    
+    def get_queryset(self):
+        category_slug = self.kwargs['category_slug']
+        category = api_models.Category.objects.get(slug=category_slug)
+        return api_models.Post.objects.filter(category=category)
