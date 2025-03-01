@@ -39,7 +39,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 ## posts have categories to filter.
 class Category(models.Model):
     title = models.CharField(max_length=100)
-    image = models.FileField(upload_to='images/category')
+    image = models.FileField(upload_to='images/category', blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
 
     def __str__(self):
