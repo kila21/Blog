@@ -27,3 +27,13 @@ class ProfileView(generics.RetrieveUpdateAPIView):
         user = api_models.User.objects.get(id=user_id)
         profile = api_models.Profile.objects.get(user=user)
         return profile
+
+class CategoryListApiView(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = api_serializer.CategorySerializer
+
+    def get_queryset(self):
+        return api_models.Category.objects.all()
+    
+
+    
