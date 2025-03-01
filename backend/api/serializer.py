@@ -52,9 +52,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CategorySerializer(serializers.ModelSerializer):
+    post_count = serializers.SerializerMethodField()
 
     def get_post_count(self, category):
-        return category.posts.count()
+        return category.post_set.count()
     class Meta:
         model = models.Category
         fields = ['id', 'title', 'image', 'slug', 'post_count']
