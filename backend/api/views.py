@@ -43,3 +43,21 @@ class PostCategoryListApiView(generics.ListAPIView):
         category_slug = self.kwargs['category_slug']
         category = api_models.Category.objects.get(slug=category_slug)
         return api_models.Post.objects.filter(category=category)
+
+class PostListApiView(generics.ListAPIView):
+    serializer_class = api_serializer.PostSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return api_models.Post.objects.all()
+
+class PostDetailApiView(generics.RetrieveAPIView):
+    serializer_class = api_serializer.PostSerializer
+    permission_classes = [AllowAny]
+
+    def get_object(self):
+        slug = self.kwargs['post_slug']
+        post = api_models.Post.objects.get(slug=slug)
+        post.views += 1
+        post.save()
+        return post
