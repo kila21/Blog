@@ -76,3 +76,19 @@ class Post(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
+    
+
+class Comments(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    email = models.CharField(max_length=100)
+    comment = models.TextField(null=True, blank=True)
+    reply = models.TextField(null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.post.title
+
+    class Meta:
+        ordering = ['-date']
+        verbose_name_plural = 'Comment'
