@@ -92,3 +92,17 @@ class Comments(models.Model):
     class Meta:
         ordering = ['-date']
         verbose_name_plural = 'Comment'
+
+
+class Bookmark(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.post.title
+
+    class Meta:
+        ordering = ['-date']
+        verbose_name_plural = 'Bookmark'
+
