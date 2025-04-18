@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics
+from rest_framework.views import APIView, Response, status
 from rest_framework.permissions import AllowAny
 
 # Create your views here.
@@ -61,3 +62,23 @@ class PostDetailApiView(generics.RetrieveAPIView):
         post.views += 1
         post.save()
         return post
+
+class LikePostApiView(APIView):
+    def post(self, request):
+        user_id = request.data['user_id']
+        post_id = request.data['post_id']
+
+        user = api_models.User.objects.get(user=user_id)
+        post = api_models.Post.objects.get(post=post_id)
+
+        if user in post.likes.all():
+            post.likes.remove(user)
+            return Response({'message': 'Post Disliked'}, status=status.HTTP_200_OK)
+        else:
+            post.likes.add(user)
+            api_models.Notification.objects.create(
+                user=post.user,
+                post=post,
+                type='Like'
+            )
+            return Response({'message': 'Post Liked'}, status=status.HTTP_201_CREATED)
